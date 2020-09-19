@@ -1,0 +1,33 @@
+{% extends "header-footer.html" %}
+
+{% block content %}
+<style>
+    .center{
+        margin: auto;
+        width: 60%;
+        padding: 10px;
+    }
+    .btn-primary {
+        float: center;
+        background-color: #FF8C00;
+    }
+</style>
+
+<div class="center">
+    <br><br>
+    <title>Let's start your job search!</title>
+    <br><br>
+
+    <form action="{% url 'results' %}" method="post">{% csrf_token %}
+        <label>Role&nbsp;&nbsp;</label><input type="textfield" name="position">
+        <br><br><br><br>
+        <label><input type="checkbox" name="sites" value="indeed"> &nbsp;&nbsp;Indeed </label>
+        <br><br>
+        <label><input type="checkbox" name="sites" value="glassdoor">  &nbsp;&nbsp;Glassdoor</label>
+        <br><br>
+        <label><input type="checkbox" name="sites" value="linkedin">  &nbsp;&nbsp;LinkedIn</label>
+        <br><br><br><br>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}

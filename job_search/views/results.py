@@ -17,15 +17,16 @@ def results(request):
         if (x == "indeed"):
             prit = indeed(role)
     
-    print(prit)
     return HttpResponse(prit)
     
 def indeed(position):
     temp = position.split()
     role = ""
-    company=[] # list of companies from search results
-    job_link=[] # list of job link to indeed
-    description=[] # list of job descriptions
+    companies=[] # list of companies from search results
+    addresses=[] # list of company addresses
+    job_links=[] # list of job link to indeed
+    descriptions=[] # list of job descriptions
+    roles=[] # list of job roles from search results
 
     for space in temp:
         role += space+"%20"
@@ -43,12 +44,31 @@ def indeed(position):
     # writer.write(temp)
     # writer.close()
     allResults = soup.find_all(class_="jobsearch-SerpJobCard unifiedRow row result")
-    res_contents = allResults[0].contents[0]
-    res_json = json.loads(res_contents)
-    type(res_json)
-    print(res_json)
+    
+    for x in allResults:
+        # tag with job link and role info
+        title = x.find(class_="jobtitle turnstileLink")
+        # role
+        roles.append(title.text.strip())
+        # job link
+        job_link = title.get('href')
+        job_links.append("indeed.com"+job_link.strip())
 
-    # writer = open("soup.html", "w")
-    # writer.write(textt)
-    # writer.close()
+        # tag with company, address
+        sjcl_class = x.find(class_="sjcl")
+        # company
+        company = sjcl_class.find(class_="company")
+        companies.append(company.text.strip())
+        # address
+        address = sjcl_class.find(class_="location accessible-contrast-color-location")
+        addresses.append(address.text.strip())
+
+        # description
+        description = x.find(class_="summary")
+        if description is None:
+            descriptions.append("")
+        else:
+            descriptions.append(description.text)
+
+    print(descriptions)
     return allResults

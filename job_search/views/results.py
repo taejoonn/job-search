@@ -2,11 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.conf import settings
 from bs4 import BeautifulSoup
-import pandas as pd
 import requests
 import urllib.request
-import time
-import json
 
 def results(request):
     sites = request.POST.getlist('sites')
@@ -21,12 +18,13 @@ def results(request):
     
 def indeed(position):
     temp = position.split()
+    result = ""
     role = ""
-    companies=[] # list of companies from search results
-    addresses=[] # list of company addresses
-    job_links=[] # list of job link to indeed
-    descriptions=[] # list of job descriptions
-    roles=[] # list of job roles from search results
+    # companies=[] # list of companies from search results
+    # addresses=[] # list of company addresses
+    # job_links=[] # list of job link to indeed
+    # descriptions=[] # list of job descriptions
+    # roles=[] # list of job roles from search results
 
     for space in temp:
         role += space+"%20"
@@ -35,40 +33,51 @@ def indeed(position):
 
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    ###### for examining the requested html ######
-    # temp = soup.prettify().replace(u'\xa0', u' ')
-    # temp  = temp.replace(u'\u2022', u'-')
-    # temp = temp.replace(u'\u2013', u'-')
-    # temp = temp.replace(u'\xa9', u' ')
-    # writer = open("soup.html", "w")
-    # writer.write(temp)
-    # writer.close()
+
     allResults = soup.find_all(class_="jobsearch-SerpJobCard unifiedRow row result")
     
+    # convert ResultSet to string
     for x in allResults:
-        # tag with job link and role info
-        title = x.find(class_="jobtitle turnstileLink")
-        # role
-        roles.append(title.text.strip())
-        # job link
-        job_link = title.get('href')
-        job_links.append("indeed.com"+job_link.strip())
+        result += str(x)
+    # split string at 'href'
+    resultList = result.split("href=")
+    result = ""
+    # loop and insert 'indeed.com' at href tags
+    for x, y in enumerate(resultList):
+        if x == 0:
+            result += y
+            continue
+        result += "href=" + y[0] + "indeed.com" + y[1:]
 
-        # tag with company, address
-        sjcl_class = x.find(class_="sjcl")
-        # company
-        company = sjcl_class.find(class_="company")
-        companies.append(company.text.strip())
-        # address
-        address = sjcl_class.find(class_="location accessible-contrast-color-location")
-        addresses.append(address.text.strip())
+    # write ResultSet to html file which will be imported in frontend
+    with open("indeed.html", "w", encoding="utf-8") as file:
+        file.write(result)
+    file.close()
 
-        # description
-        description = x.find(class_="summary")
-        if description is None:
-            descriptions.append("")
-        else:
-            descriptions.append(description.text)
+    # if we want to pass info as objects
+    # for x in allResults:
+    #     # tag with job link and role info
+    #     title = x.find(class_="jobtitle turnstileLink")
+    #     # role
+    #     roles.append(title.text.strip())
+    #     # job link
+    #     job_link = title.get('href')
+    #     job_links.append("indeed.com"+job_link.strip())
 
-    print(descriptions)
+    #     # tag with company, address
+    #     sjcl_class = x.find(class_="sjcl")
+    #     # company
+    #     company = sjcl_class.find(class_="company")
+    #     companies.append(company.text.strip())
+    #     # address
+    #     address = sjcl_class.find(class_="location accessible-contrast-color-location")
+    #     addresses.append(address.text.strip())
+
+    #     # description
+    #     description = x.find(class_="summary")
+    #     if description is None:
+    #         descriptions.append("")
+    #     else:
+    #         descriptions.append(description.text)
+
     return allResults

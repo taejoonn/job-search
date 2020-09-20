@@ -11,6 +11,24 @@
         float: center;
         background-color: #FF8C00;
     }
+    .input-icons i { 
+            position: absolute; 
+        } 
+          
+        .input-icons { 
+            width: 100%; 
+            margin-bottom: 10px; 
+        } 
+          
+        .icon { 
+            padding: 10px; 
+            min-width: 40px; 
+        } 
+          
+        .input-field { 
+            padding: 10px; 
+            text-align: center; 
+        } 
 </style>
 
 <div class="center">
@@ -19,8 +37,14 @@
     <br><br>
 
     <form action="{% url 'results' %}" method="post">{% csrf_token %}
-        <label>Role&nbsp;&nbsp;</label><input type="textfield" name="position">
-        <br><br><br><br>
+        <div class="input-icons">
+            <i class="fa fa-search icon"></i>
+            <input class="input-field" type="text" name="position" placeholder="Role">
+            <i class="fa fa-map-marker icon"></i>
+            <input class="input-field" type="text" name="location" placeholder="Location">
+        </div>
+        <br><br>
+        <input type="hidden" name="index" value="0">
         <label><input type="checkbox" name="sites" value="indeed"> &nbsp;&nbsp;Indeed </label>
         <br><br>
         <label><input type="checkbox" name="sites" value="glassdoor">  &nbsp;&nbsp;Glassdoor</label>

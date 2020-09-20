@@ -5,7 +5,8 @@ body,html {
 }
 .leftpane {
     width: 30%;
-    height: 100%;
+    height: auto !important;
+            min-height: 100%;
     float: left;
     background-color: lightblue;
     border-collapse: collapse;
@@ -13,7 +14,8 @@ body,html {
 
 .midpane {
     width: 30%;
-    height: 100%;
+    height: auto !important;
+            min-height: 100%;
     float: left;
     background-color: rgb(82, 185, 129);
     border-collapse: collapse;
@@ -21,7 +23,9 @@ body,html {
 
 .rightpane{
     width: 30%;
-    height: 100%;
+    height: auto !important;
+            min-height: 100%;
+    position: relative;
     float: left;
     background-color: rgb(82, 127, 185);
     border-collapse: collapse;

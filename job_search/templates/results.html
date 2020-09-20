@@ -1,0 +1,59 @@
+<html>
+<head>
+    <style>
+        body,html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        .leftpane {
+            width: 33.33%;
+            height: auto !important;
+            min-height: 100%;
+            float: left;
+            background-color: lightblue;
+            border-collapse: collapse;
+        }
+
+        .midpane {
+            width: 33.33%;
+            height: auto !important;
+            min-height: 100%;
+            float: left;
+            background-color: rgb(82, 185, 129);
+            border-collapse: collapse;
+        }
+
+        .rightpane{
+            width: 33.33%;
+            height: auto !important;
+            min-height: 100%;
+            position: relative;
+            float: left;
+            background-color: rgb(82, 127, 185);
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<header>
+    {% load static %}
+    <ul>
+        <li class="logo">Job Now</li>
+        <li><a class="active" href="{% url 'home' %}"><Strong>Home</Strong></a></li>
+        <li><a href="#contact"><Strong>About</Strong></a></li>
+    </ul>
+</header>
+<body>
+    <div class="container">
+        <div class='leftpane'>
+            {% include "indeed.html" %}
+        </div>
+        <div class='midpane'>
+            Mid pane
+        </div>
+        <div class='rightpane'>
+            Right pane
+        </div>
+    </div>
+</body>
+</html>

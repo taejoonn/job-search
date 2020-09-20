@@ -6,17 +6,20 @@ import requests
 import urllib.request
 
 def results(request):
+    page = 0
     sites = request.POST.getlist('sites')
+    location = request.POST.get('location')
     role = request.POST.get('position')
-    prit = ""
+    index = request.POST.get("index")
+    
 
     for x in sites:
         if (x == "indeed"):
-            prit = indeed(role)
+            indeed(role, location, index)
     
-    return HttpResponse(prit)
+    return render(request, 'results.html')
     
-def indeed(position):
+def indeed(position, location, index):
     temp = position.split()
     result = ""
     role = ""
@@ -79,5 +82,3 @@ def indeed(position):
     #         descriptions.append("")
     #     else:
     #         descriptions.append(description.text)
-
-    return allResults

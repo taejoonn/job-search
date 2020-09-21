@@ -45,15 +45,47 @@
 </header>
 <body>
     <div class="container">
-        <div class='leftpane'>
-            {% include "indeed.html" %}
-        </div>
-        <div class='midpane'>
-            Mid pane
-        </div>
-        <div class='rightpane'>
-            Right pane
-        </div>
+        <form action="{% url 'results' %}" method="post">{% csrf_token %}
+            <input type="hidden" name="position" value="{{position}}">
+            <input type="hidden" name="location" value="{{location}}">
+
+            {% for site in sites %}
+            <input type="hidden" name="sites" value="{{site}}">
+            {% endfor %}
+            
+            <div class='leftpane'>
+                {% include "indeed.html" %}
+                
+
+                {% if Indeed_page > 0 %}
+                <button id="i_p" name="Indeed_page" onclick="indeed_prev()" value="{{Indeed_page}}">Previous Page</button>
+                {% endif %}
+
+                <button id="i_n" name="Indeed_page" onclick="indeed_next()" value="{{Indeed_page}}">Next Page</button>
+                
+            </div>
+            <div class='midpane'>
+                Mid pane
+            </div>
+            <div class='rightpane'>
+                Right pane
+            </div>
+        </form>
     </div>
 </body>
+
+<script>
+    function indeed_prev(){
+        var page = +document.getElementById("i_p").getAttribute("value");
+        console.log(page);
+        page--;
+        document.getElementById("i_p").setAttribute("value", page);
+        console.log(page);
+    }
+
+    function indeed_next(){
+        var page = +document.getElementById("i_n").value;
+        document.getElementById("i_n").value = page+1;
+    }
+</script>
 </html>

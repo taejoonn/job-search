@@ -39,12 +39,14 @@
     <form action="{% url 'results' %}" method="post">{% csrf_token %}
         <div class="input-icons">
             <i class="fa fa-search icon"></i>
-            <input class="input-field" type="text" name="position" placeholder="Role">
+            <input class="input-field" type="text" name="position" placeholder="eg. Software Engineer">
             <i class="fa fa-map-marker icon"></i>
-            <input class="input-field" type="text" name="location" placeholder="Location">
+            <input class="input-field" type="text" name="location" placeholder="eg. New York, NY">
         </div>
         <br><br>
-        <input type="hidden" name="index" value="0">
+        <input type="hidden" name="Indeed_page" value="0">
+        <input type="hidden" name="GD_page" value="0">
+        <input type="hidden" name="LI_page" value="0">
         <label><input type="checkbox" name="sites" value="indeed"> &nbsp;&nbsp;Indeed </label>
         <br><br>
         <label><input type="checkbox" name="sites" value="glassdoor">  &nbsp;&nbsp;Glassdoor</label>

@@ -6,37 +6,40 @@ import requests
 import urllib.request
 
 def results(request):
-    page = 0
     sites = request.POST.getlist('sites')
     location = request.POST.get('location')
     role = request.POST.get('position')
-    index = request.POST.get("index")
-    
+    index = int(request.POST.get("Indeed_page"))
+    print(sites)
 
     for x in sites:
         if (x == "indeed"):
             indeed(role, location, index)
+
+    context = {
+        "sites": sites,
+        "Indeed_page": index,
+        "position": role,
+        "location": location
+    }
     
-    return render(request, 'results.html')
+    return render(request, 'results.html', context=context)
     
 def indeed(position, location, index):
-    temp = position.split()
+    position = position.replace(" ", "%20")
     result = ""
-    role = ""
-    # companies=[] # list of companies from search results
-    # addresses=[] # list of company addresses
-    # job_links=[] # list of job link to indeed
-    # descriptions=[] # list of job descriptions
-    # roles=[] # list of job roles from search results
+    location = location.replace(" ", "%20")
+    location = location.replace(",", "%2C")
+    page = ""
 
-    for space in temp:
-        role += space+"%20"
+    # determine the webpage number
+    if index > 0:
+        page = "&start=" + str(index*10)
 
-    url = 'https://www.indeed.com/jobs?q=' + role + '&l=New%20York%2C%20NY&ts=1600003327916&rq=1&rsIdx=0&fromage=last&newcount=190&vjk=56afb9750841d452'
-
+    url = 'https://www.indeed.com/jobs?q=' + position + '&l=' + location + page
+    print(url)
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-
     allResults = soup.find_all(class_="jobsearch-SerpJobCard unifiedRow row result")
     
     # convert ResultSet to string
@@ -50,35 +53,9 @@ def indeed(position, location, index):
         if x == 0:
             result += y
             continue
-        result += "href=" + y[0] + "indeed.com" + y[1:]
-
+        result += "target=" + y[0] + "_blank" + y[0] +" href=" + y[0] + "https://www.indeed.com" + y[1:]
+    
     # write ResultSet to html file which will be imported in frontend
-    with open("indeed.html", "w", encoding="utf-8") as file:
+    with open("job_search/templates/indeed.html", "w", encoding="utf-8") as file:
         file.write(result)
     file.close()
-
-    # if we want to pass info as objects
-    # for x in allResults:
-    #     # tag with job link and role info
-    #     title = x.find(class_="jobtitle turnstileLink")
-    #     # role
-    #     roles.append(title.text.strip())
-    #     # job link
-    #     job_link = title.get('href')
-    #     job_links.append("indeed.com"+job_link.strip())
-
-    #     # tag with company, address
-    #     sjcl_class = x.find(class_="sjcl")
-    #     # company
-    #     company = sjcl_class.find(class_="company")
-    #     companies.append(company.text.strip())
-    #     # address
-    #     address = sjcl_class.find(class_="location accessible-contrast-color-location")
-    #     addresses.append(address.text.strip())
-
-    #     # description
-    #     description = x.find(class_="summary")
-    #     if description is None:
-    #         descriptions.append("")
-    #     else:
-    #         descriptions.append(description.text)

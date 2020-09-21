@@ -55,17 +55,21 @@
             
             <div class='leftpane'>
                 {% include "indeed.html" %}
-                
 
                 {% if Indeed_page > 0 %}
                 <button id="i_p" name="Indeed_page" onclick="indeed_prev()" value="{{Indeed_page}}">Previous Page</button>
                 {% endif %}
 
                 <button id="i_n" name="Indeed_page" onclick="indeed_next()" value="{{Indeed_page}}">Next Page</button>
-                
             </div>
             <div class='midpane'>
-                Mid pane
+                {% include "glassdoor.html" %}
+
+                {% if GlassDoor_page > 0 %}
+                <button id="g_p" name="gd_page" onclick="gd_prev()" value="{{GlassDoor_page}}">Previous Page</button>
+                {% endif %}
+
+                <button id="g_n" name="gd_page" onclick="gd_next()" value="{{GlassDoor_page}}">Next Page</button>
             </div>
             <div class='rightpane'>
                 Right pane
@@ -76,16 +80,23 @@
 
 <script>
     function indeed_prev(){
-        var page = +document.getElementById("i_p").getAttribute("value");
-        console.log(page);
-        page--;
-        document.getElementById("i_p").setAttribute("value", page);
-        console.log(page);
+        var page = +document.getElementById("i_p").value;
+        document.getElementById("i_p").value = page-1;
     }
 
     function indeed_next(){
         var page = +document.getElementById("i_n").value;
         document.getElementById("i_n").value = page+1;
+    }
+
+    function gd_prev(){
+        var page = +document.getElementById("g_p").value;
+        document.getElementById("g_p").value = page-1;
+    }
+
+    function gd_next(){
+        var page = +document.getElementById("g_n").value;
+        document.getElementById("g_n").value = page+1;
     }
 </script>
 </html>

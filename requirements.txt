@@ -26,3 +26,5 @@ toml==0.10.1
 urllib3==1.25.10
 virtualenv==20.0.31
 wrapt==1.12.1
+google-cloud-storage==1.24.1
+googleapis_common_protos

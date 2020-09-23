@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from .views import home, results
 from django.views.generic import RedirectView
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home.home, name='home'),
     path('results/', results.results, name='results'),
-    path('', RedirectView.as_view(url='home', permanent=True)),
+    path('', home.home, name='home'),
 ]

@@ -1,0 +1,32 @@
+body,html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+.leftpane {
+    width: 33.33%;
+    height: auto !important;
+            min-height: 100%;
+    float: left;
+    background-color: lightblue;
+    border-collapse: collapse;
+}
+
+.midpane {
+    width: 33.33%;
+    height: auto !important;
+            min-height: 100%;
+    float: left;
+    background-color: rgb(82, 185, 129);
+    border-collapse: collapse;
+}
+
+.rightpane{
+    width: 33.33%;
+    height: auto !important;
+            min-height: 100%;
+    position: relative;
+    float: left;
+    background-color: rgb(82, 127, 185);
+    border-collapse: collapse;
+}

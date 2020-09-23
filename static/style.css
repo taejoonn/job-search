@@ -4,7 +4,7 @@ body,html {
     margin: 0;
 }
 .leftpane {
-    width: 30%;
+    width: 33.33%;
     height: auto !important;
             min-height: 100%;
     float: left;
@@ -13,7 +13,7 @@ body,html {
 }
 
 .midpane {
-    width: 30%;
+    width: 33.33%;
     height: auto !important;
             min-height: 100%;
     float: left;
@@ -22,7 +22,7 @@ body,html {
 }
 
 .rightpane{
-    width: 30%;
+    width: 33.33%;
     height: auto !important;
             min-height: 100%;
     position: relative;

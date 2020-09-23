@@ -1,10 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.conf import settings
 from bs4 import BeautifulSoup
 from . import states_abb
 import requests
-import urllib.request
 
 def results(request):
     sites = request.POST.getlist('sites')
@@ -44,7 +41,6 @@ def indeed(position, location, index):
 
     # obtain ResultSet for job listings
     url = 'https://www.indeed.com/jobs?q=' + position + '&l=' + location + page
-    print(url)
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     allResults = soup.find_all(class_="jobsearch-SerpJobCard unifiedRow row result")
@@ -84,7 +80,6 @@ def glassDoor(position, location, index):
     if index > 0:
         page = "_IP" + str(index+1) + ".htm"
     url = url.replace(".htm", page)
-    
     # obtain ResultSet for job listings
     headers = requests.utils.default_headers()
     headers.update({

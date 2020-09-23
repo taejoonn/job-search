@@ -7,5 +7,5 @@ Location specification - [City, State(Abbreviated)]
 e.g. New York, NY
 
 ---Installation---
-pip install
+pip install -r requirements.txt
 python manage.py runserver
